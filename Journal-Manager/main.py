@@ -1,98 +1,67 @@
-def menu():
-    print("\n===== Journal Manager =====")
-    print("1. Add Entry")
-    print("2. View All Entries")
-    print("3. Search Entry")
-    print("4. Delete Entry")
-    print("5. Exit")
 
-    3
-def add_entry():
-    date = input("Enter date (YYYY-MM-DD): ")
-    title = input("Enter title: ")
-    content = input("Write your journal:\n")
+FILENAME = 'journal.txt'
 
-    with open("journal.txt", "a") as file:
-        file.write(f"{date} | {title}\n")
-        file.write(content + "\n")
-        file.write("---\n")
+def write_entry():
+   
+    entry = input('Write your journal entry: ') + '\n'
     
-    print(" Entry added successfully!")
+    with open(FILENAME, 'a') as file:
+        file.write(entry)
+
+def read_all():
     
-    
-def view_entries():
     try:
-        with open("journal.txt", "r") as file:
-            data = file.read()
-            if data.strip() == "":
-                print("No entries found.")
-            else:
-                print("\n===== All Journal Entries =====")
-                print(data)
+        
+        with open(FILENAME, 'r') as file:
+            print('\nAll Journal Entries:')
+           
+            print(file.read())
     except FileNotFoundError:
-        print("No journal file found.")
+        
+        print("\nJournal file not found. Try adding an entry first.")
 
-def search_entry():
-    keyword = input("Enter date or title to search: ").lower()
+def search():
+
+    keyword = input('Enter keyword to search: ')
     try:
-        with open("journal.txt", "r") as file:
-            data = file.read().split("---\n")
-            found = False
-            for entry in data:
-                if keyword in entry.lower():
-                    print("\n----- Found Entry -----")
-                    print(entry)
-                    found = True
-            if not found:
-                print("No matching entry found.")
+        with open(FILENAME, 'r') as file:
+            
+            all_lines = file.readlines()
+            for line in all_lines:
+                
+                if keyword.lower() in line.lower():
+                    
+                    print(line.strip())
+                    
+                    return
+            
+            print('No matching entries.')
     except FileNotFoundError:
-        print("No journal file available.")
+        print("\nJournal file not found. Try adding an entry first.")
 
-def delete_entry():
-    keyword = input("Enter date or title of entry to delete: ").lower()
+def main_menu():
+    
+    while True:
+        print('\n==== File Journal Menu ====')
+        print('1. Add Entry')
+        print('2. Read All Entries')
+        print('3. Search Entries')
+        print('4. Exit')
 
-    try:
-        with open("journal.txt", "r") as file:
-            entries = file.read().split("---\n")
-        
-        new_entries = []
-        deleted = False
-        
-        for entry in entries:
-            if entry.strip() and keyword not in entry.lower():
-                new_entries.append(entry)
-            else:
-                if entry.strip():
-                    deleted = True
-        
-        with open("journal.txt", "w") as file:
-            for entry in new_entries:
-                file.write(entry + "\n---\n")
-        
-        if deleted:
-            print("Entry deleted successfully!")
+        choice = input('Choose option (1-4): ')
+
+        if choice == '1':
+            write_entry()
+        elif choice == '2':
+            read_all()
+        elif choice == '3':
+            search()
+        elif choice == '4':
+            print('Goodbye!')
+            break
         else:
-            print("No matching entry found.")
-        
-    except FileNotFoundError:
-        print("No journal file available.")
-        
-while True:
-    menu()
-    choice = input("Enter option: ")
-
-    if choice == "1":
-        add_entry()
-    elif choice == "2":
-        view_entries()
-    elif choice == "3":
-        search_entry()
-    elif choice == "4":
-        delete_entry()
-    elif choice == "5":
-        print("Exiting... Goodbye!")
-        break
-    else:
-        print("Invalid choice!")
+            print('Invalid choice.')
 
 
+if __name__ == "__main__":
+    main_menu()
