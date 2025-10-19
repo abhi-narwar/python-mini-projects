@@ -81,7 +81,7 @@ def delete_entry():
                 file.write(entry + "\n---\n")
         
         if deleted:
-            print("✅ Entry deleted successfully!")
+            print("Entry deleted successfully!")
         else:
             print("No matching entry found.")
         
