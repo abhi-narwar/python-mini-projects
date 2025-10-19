@@ -6,18 +6,7 @@ def menu():
     print("4. Delete Entry")
     print("5. Exit")
 
-def add_entry():
-    date = input("Enter date (YYYY-MM-DD): ")
-    title = input("Enter title: ")
-    content = input("Write your journal:\n")
-
-    with open("journal.txt", "a") as file:
-        file.write(f"{date} | {title}\n")
-        file.write(content + "\n")
-        file.write("---\n")
-    
-    print("Entry added successfully!")
-    
+    3
 def add_entry():
     date = input("Enter date (YYYY-MM-DD): ")
     title = input("Enter title: ")
